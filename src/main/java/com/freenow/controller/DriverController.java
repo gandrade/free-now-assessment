@@ -12,6 +12,9 @@ import com.freenow.service.car.CarService;
 import com.freenow.service.driver.DriverService;
 import java.util.List;
 import javax.validation.Valid;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -34,13 +37,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("v1/drivers")
+@Api(tags = {"Driver management"})
 public class DriverController
 {
 
     private final DriverService driverService;
 
 
-    @Autowired
     public DriverController(final DriverService driverService, final CarService carService)
     {
         this.driverService = driverService;
@@ -48,6 +51,7 @@ public class DriverController
 
 
     @GetMapping("/{driverId}")
+    @ApiOperation(value = "Return a driver based on its identification.")
     public DriverDTO getDriver(@Valid @PathVariable long driverId) throws EntityNotFoundException
     {
         return DriverMapper.makeDriverDTO(driverService.find(driverId));
@@ -56,6 +60,7 @@ public class DriverController
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "Creates a new Driver.")
     public DriverDTO createDriver(@Valid @RequestBody DriverDTO driverDTO) throws ConstraintsViolationException
     {
         DriverDO driverDO = DriverMapper.makeDriverDO(driverDTO);
@@ -64,6 +69,7 @@ public class DriverController
 
 
     @DeleteMapping("/{driverId}")
+    @ApiOperation(value = "Deletes a Driver.")
     public void deleteDriver(@Valid @PathVariable long driverId) throws EntityNotFoundException
     {
         driverService.delete(driverId);
@@ -71,6 +77,7 @@ public class DriverController
 
 
     @PutMapping("/{driverId}")
+    @ApiOperation(value = "Updates Driver's location.")
     public void updateLocation(
         @Valid @PathVariable long driverId, @RequestParam double longitude, @RequestParam double latitude)
         throws EntityNotFoundException
@@ -80,6 +87,7 @@ public class DriverController
 
 
     @PutMapping("/{driverId}/cars/{carId}/select")
+    @ApiOperation(value = "Selects a Driver for a given Car.")
     public DriverDTO selectCar(@PathVariable Long driverId, @PathVariable Long carId) throws EntityNotFoundException, ConstraintsViolationException, CarAlreadyInUseException
     {
         return DriverMapper.makeDriverDTO(driverService.select(driverId, carId));
@@ -87,6 +95,7 @@ public class DriverController
 
 
     @PutMapping("/{driverId}/cars/{carId}/deselect")
+    @ApiOperation(value = "Deselects a Driver for a given Car.")
     public void deselectCar(@PathVariable Long driverId, @PathVariable Long carId) throws EntityNotFoundException
     {
         driverService.deselect(driverId, carId);
@@ -94,6 +103,7 @@ public class DriverController
 
 
     @GetMapping
+    @ApiOperation(value = "Returns a list of all drivers based on given criteria.")
     public List<DriverDTO> findDrivers(DriverDTO driverDTO)
     {
         Specification<DriverDO> spec = DriverDOSpecification.makeDriverDOSpecification(driverDTO);
