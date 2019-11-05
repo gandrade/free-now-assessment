@@ -1,13 +1,32 @@
 package com.freenow.controller.mapper;
 
+import com.freenow.datatransferobject.CarCriteriaDTO;
 import com.freenow.datatransferobject.CarDTO;
 import com.freenow.domainobject.CarDO;
+import com.freenow.domainobject.ManufacturerDO;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CarMapper
 {
+
+    public static CarDO makeDriverDO(CarCriteriaDTO carCriteriaDTO)
+    {
+        if (carCriteriaDTO == null)
+        {
+            return null;
+        }
+
+        ManufacturerDO manufacturerDO = ManufacturerMapper.makeManufacturerDO(carCriteriaDTO.getManufacturerDTO());
+        return new CarDO(
+            carCriteriaDTO.getLicensePlate(),
+            carCriteriaDTO.getSeatCount(),
+            carCriteriaDTO.getConvertible(),
+            carCriteriaDTO.getRating(),
+            carCriteriaDTO.getEngineType(),
+            manufacturerDO);
+    }
 
     public static CarDTO makeCarDTO(CarDO carDO)
     {

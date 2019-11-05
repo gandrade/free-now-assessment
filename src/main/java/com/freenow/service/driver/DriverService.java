@@ -28,4 +28,11 @@ public interface DriverService
 
     List<DriverDO> findAll(Specification<DriverDO> spec);
 
+    /**
+     * Returns drivers that matching the attributes provided.
+     * @param driverDO {@link DriverDO}
+     * @return List of drivers were attributes have matched.
+     */
+    List<DriverDO> findAll(DriverDO driverDO);
+
 }

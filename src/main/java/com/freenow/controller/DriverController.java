@@ -2,6 +2,7 @@ package com.freenow.controller;
 
 import com.freenow.controller.mapper.DriverMapper;
 import com.freenow.controller.specification.DriverDOSpecification;
+import com.freenow.datatransferobject.DriverCriteriaDTO;
 import com.freenow.datatransferobject.DriverDTO;
 import com.freenow.domainobject.DriverDO;
 import com.freenow.domainvalue.OnlineStatus;
@@ -104,14 +105,14 @@ public class DriverController
 
     @GetMapping
     @ApiOperation(value = "Returns a list of all drivers based on given criteria.")
-    public List<DriverDTO> findDrivers(DriverDTO driverDTO)
+    public List<DriverDTO> findDrivers(DriverCriteriaDTO driverCriteriaDTO)
     {
-        Specification<DriverDO> spec = DriverDOSpecification.makeDriverDOSpecification(driverDTO);
-        return DriverMapper.makeDriverDTOList(driverService.findAll(spec));
-    }
+        DriverDO driverDO = DriverMapper.makeDriverDO(driverCriteriaDTO);
+        List<DriverDO> drivers = driverService.findAll(driverDO);
+        return DriverMapper.makeDriverDTOList(drivers);    }
 
 
-    @InitBinder
+    @InitBinder(value = {"driverCriteriaDTO"})
     public void initBinder(WebDataBinder binder)
     {
         binder.initDirectFieldAccess();

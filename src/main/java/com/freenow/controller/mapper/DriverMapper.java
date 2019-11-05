@@ -1,5 +1,6 @@
 package com.freenow.controller.mapper;
 
+import com.freenow.datatransferobject.DriverCriteriaDTO;
 import com.freenow.datatransferobject.DriverDTO;
 import com.freenow.domainobject.DriverDO;
 import com.freenow.domainvalue.GeoCoordinate;
@@ -15,6 +16,18 @@ public class DriverMapper
         return new DriverDO(driverDTO.getUsername(), driverDTO.getPassword());
     }
 
+    public static DriverDO makeDriverDO(DriverCriteriaDTO driverDTO)
+    {
+        if (driverDTO == null)
+        {
+            return null;
+        }
+        DriverDO driverDO = new DriverDO(driverDTO.getUsername(), null);
+        driverDO.setOnlineStatus(driverDTO.getOnlineStatus());
+        driverDO.setCoordinate(driverDTO.getCoordinate());
+        driverDO.setCarDO(CarMapper.makeDriverDO(driverDTO.getCarDTO()));
+        return driverDO;
+    }
 
     public static DriverDTO makeDriverDTO(DriverDO driverDO)
     {

@@ -9,6 +9,7 @@ import com.freenow.exception.CarAlreadyInUseException;
 import com.freenow.exception.ConstraintsViolationException;
 import com.freenow.exception.EntityNotFoundException;
 import com.freenow.service.car.CarService;
+import com.freenow.specification.DriverDOSpecificationExecutor;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.domain.Specification;
@@ -29,12 +30,15 @@ public class DefaultDriverService implements DriverService
 
     private final DriverRepository driverRepository;
     private final CarService carService;
+    private final DriverDOSpecificationExecutor driverDOSpecificationExecutor;
 
 
-    public DefaultDriverService(final DriverRepository driverRepository, CarService carService)
+
+    public DefaultDriverService(final DriverRepository driverRepository, CarService carService, DriverDOSpecificationExecutor driverDOSpecificationExecutor)
     {
         this.driverRepository = driverRepository;
         this.carService = carService;
+        this.driverDOSpecificationExecutor = driverDOSpecificationExecutor;
     }
 
 
@@ -154,6 +158,13 @@ public class DefaultDriverService implements DriverService
         return driverRepository.findAll(spec);
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public List<DriverDO> findAll(DriverDO driverDO)
+    {
+        Specification<DriverDO> driverDOSpecification = this.driverDOSpecificationExecutor.makeSpecification(driverDO);
+        return driverRepository.findAll(driverDOSpecification);
+    }
 
     private DriverDO findOnlineDriver(Long driverId) throws EntityNotFoundException
     {
