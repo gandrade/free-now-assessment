@@ -31,6 +31,11 @@ public class DriverMapper
 
     public static DriverDTO makeDriverDTO(DriverDO driverDO)
     {
+        if (driverDO == null)
+        {
+            return null;
+        }
+
         DriverDTO.DriverDTOBuilder driverDTOBuilder = DriverDTO.newBuilder()
             .setId(driverDO.getId())
             .setPassword(driverDO.getPassword())

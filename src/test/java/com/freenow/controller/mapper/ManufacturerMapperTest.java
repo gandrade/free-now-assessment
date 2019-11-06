@@ -1,7 +1,10 @@
 package com.freenow.controller.mapper;
 
+
+import com.freenow.datatransferobject.ManufacturerCriteriaDTO;
 import com.freenow.datatransferobject.ManufacturerDTO;
 import com.freenow.domainobject.ManufacturerDO;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -28,6 +31,25 @@ public class ManufacturerMapperTest
             .createNewManufacturerDTO();
         ManufacturerDO manufacturerDO = ManufacturerMapper.makeManufacturerDO(manufacturerDTO);
         assertThat(manufacturerDO.getId(), nullValue());
+        assertThat(manufacturerDO.getName(), equalTo("TESLA"));
+    }
+
+
+    @Test
+    public void shouldReturnNullWhenManufacturerCriteriaDTOIsNull()
+    {
+        ManufacturerCriteriaDTO manufacturerCriteriaDTO = null;
+        assertThat(ManufacturerMapper.makeManufacturerDO(manufacturerCriteriaDTO), Matchers.nullValue());
+    }
+
+
+    @Test
+    public void shouldMakeManufacturerDOFilter()
+    {
+        ManufacturerCriteriaDTO manufacturerDTO = ManufacturerCriteriaDTO.newBuilder()
+            .setName("Tesla")
+            .createManufacturerDTO();
+        ManufacturerDO manufacturerDO = ManufacturerMapper.makeManufacturerDO(manufacturerDTO);
         assertThat(manufacturerDO.getName(), equalTo("TESLA"));
     }
 }

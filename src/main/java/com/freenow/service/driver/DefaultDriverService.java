@@ -84,8 +84,6 @@ public class DefaultDriverService implements DriverService
         driverDO.setCoordinate(new GeoCoordinate(latitude, longitude));
     }
 
-    //FIXME
-
 
     /** {@inheritDoc} */
     @Override
@@ -105,9 +103,6 @@ public class DefaultDriverService implements DriverService
         carDO.setDriverDO(driverDO);
         return driverDO;
     }
-
-    //FIXME
-
 
     /** {@inheritDoc} */
     @Override

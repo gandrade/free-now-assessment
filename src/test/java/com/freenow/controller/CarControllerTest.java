@@ -5,12 +5,14 @@ import com.freenow.datatransferobject.CarDTO;
 import com.freenow.datatransferobject.ManufacturerDTO;
 import com.freenow.domainvalue.EngineType;
 import com.jayway.jsonpath.JsonPath;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -34,6 +36,15 @@ public class CarControllerTest
 
 
     @Test
+    @WithAnonymousUser
+    public void shoulReturn401UnauthorizedFindingCars() throws Exception
+    {
+        this.mockMvc.perform(get("/v1/cars"))
+            .andExpect(status().isUnauthorized());
+    }
+
+
+    @Test
     public void shouldFindCars() throws Exception
     {
         this.mockMvc.perform(get("/v1/cars"))
@@ -50,11 +61,27 @@ public class CarControllerTest
 
 
     @Test
+    public void shoulThrowEntityNotFoundExceptionFindingNonExistingCarId() throws Exception
+    {
+        this.mockMvc.perform(get("/v1/cars/0"))
+            .andExpect(status().isNotFound());
+    }
+
+
+    @Test
     @DirtiesContext
     public void shouldDeleteCar() throws Exception
     {
         this.mockMvc.perform(delete("/v1/cars/1"))
             .andExpect(status().isOk());
+    }
+
+
+    @Test
+    public void shouldDeleteNonExistingCar() throws Exception
+    {
+        this.mockMvc.perform(delete("/v1/cars/0"))
+            .andExpect(status().isNotFound());
     }
 
 

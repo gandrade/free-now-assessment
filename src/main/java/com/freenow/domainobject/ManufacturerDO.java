@@ -39,20 +39,6 @@ public class ManufacturerDO
     private List<CarDO> cars = new ArrayList<>();
 
 
-    public void addCar(CarDO carDO)
-    {
-        cars.add(carDO);
-        carDO.setManufacturerDO(this);
-    }
-
-
-    public void removeComment(CarDO carDO)
-    {
-        cars.remove(carDO);
-        carDO.setManufacturerDO(this);
-    }
-
-
     public ManufacturerDO()
     {
 
@@ -61,7 +47,7 @@ public class ManufacturerDO
 
     public ManufacturerDO(String name)
     {
-        this.name = name.toUpperCase();
+        this.name = name == null ? null : name.toUpperCase();
     }
 
 

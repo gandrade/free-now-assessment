@@ -62,7 +62,7 @@ public class CarDO
 
     public CarDO(String licensePlate, Integer seatCount, Boolean convertible, Float rating, EngineType engineType)
     {
-        this.licensePlate = licensePlate;
+        this.licensePlate = licensePlate == null ? null : licensePlate.toUpperCase();
         this.seatCount = seatCount;
         this.convertible = convertible;
         this.rating = rating;
