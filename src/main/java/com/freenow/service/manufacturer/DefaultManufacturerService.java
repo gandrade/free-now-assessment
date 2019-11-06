@@ -22,6 +22,7 @@ public class DefaultManufacturerService implements ManufacturerService
     }
 
 
+    /** {@inheritDoc} */
     @Override
     public ManufacturerDO findByNameIgnoreCase(String name) throws EntityNotFoundException
     {

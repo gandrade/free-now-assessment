@@ -15,4 +15,9 @@ public class ConstraintsViolationException extends Exception
         super(message);
     }
 
+
+    public ConstraintsViolationException(String message, Throwable cause)
+    {
+        super(message, cause);
+    }
 }

@@ -2,13 +2,11 @@ package com.freenow.dataaccessobject;
 
 import com.freenow.domainobject.DriverDO;
 import com.freenow.domainvalue.OnlineStatus;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.repository.CrudRepository;
+
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 
 /**
  * Database Access Object for driver table.
@@ -17,10 +15,36 @@ import org.springframework.data.repository.query.Param;
 public interface DriverRepository extends CrudRepository<DriverDO, Long>, JpaSpecificationExecutor<DriverDO>
 {
 
+    /**
+     * Find Driver by identification and marked as deleted.
+     *
+     * @param driverId Driver identification
+     * @return DriverDO
+     */
+    Optional<DriverDO> findByIdAndDeletedFalse(Long driverId);
+
+    /**
+     * Find for Online drivers.
+     *
+     * @param onlineStatus {@link OnlineStatus}
+     * @return List of online drivers.
+     */
     List<DriverDO> findByOnlineStatus(OnlineStatus onlineStatus);
 
-    Optional<DriverDO> findByIdAndOnlineStatus(Long driverId, OnlineStatus online);
+    /**
+     * Find driver by identifier and {@link OnlineStatus}
+     *
+     * @param driverId Driver's Identifier
+     * @param online {@link OnlineStatus}
+     * @return Online driver
+     */
+    Optional<DriverDO> findByIdAndOnlineStatusAndDeletedFalse(Long driverId, OnlineStatus online);
 
-    @Query("SELECT CASE WHEN COUNT(driver) > 0 THEN true ELSE false END FROM DriverDO driver INNER JOIN driver.carDO as carDO WHERE carDO IS NOT NULL AND driver.id=:id ")
-    boolean existsByIdAndCarDOIsNotNull(@Param("id") Long driverId);
+    /**
+     * Checks whether exists an assigned car for a given driver identifier.
+     *
+     * @param driverId Driver identifier
+     * @return true when exists and false otherwise.
+     */
+    boolean existsByIdAndCarDO_IdIsNotNull(Long driverId);
 }

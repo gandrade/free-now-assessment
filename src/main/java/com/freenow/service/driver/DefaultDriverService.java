@@ -41,107 +41,75 @@ public class DefaultDriverService implements DriverService
     }
 
 
-    /**
-     * Selects a driver by id.
-     *
-     * @param driverId
-     * @return found driver
-     * @throws EntityNotFoundException if no driver with the given id was found.
-     */
+
+    /** {@inheritDoc} */
     @Override
     public DriverDO find(Long driverId) throws EntityNotFoundException
     {
-        return findDriverChecked(driverId);
+        return this.findDriverChecked(driverId);
     }
 
 
-    /**
-     * Creates a new driver.
-     *
-     * @param driverDO
-     * @return
-     * @throws ConstraintsViolationException if a driver already exists with the given username, ... .
-     */
+    /** {@inheritDoc} */
     @Override
     public DriverDO create(DriverDO driverDO) throws ConstraintsViolationException
     {
-        DriverDO driver;
         try
         {
-            driver = driverRepository.save(driverDO);
+            return driverRepository.save(driverDO);
         }
         catch (DataIntegrityViolationException e)
         {
-            LOG.warn("Some constraints are thrown due to driver creation", e);
-            throw new ConstraintsViolationException(e.getMessage());
+            throw new ConstraintsViolationException("Some constraints are thrown due to driver creation", e);
         }
-        return driver;
     }
 
 
-    /**
-     * Deletes an existing driver by id.
-     *
-     * @param driverId
-     * @throws EntityNotFoundException if no driver with the given id was found.
-     */
+    /** {@inheritDoc} */
     @Override
     @Transactional
     public void delete(Long driverId) throws EntityNotFoundException
     {
-        DriverDO driverDO = findDriverChecked(driverId);
+        DriverDO driverDO = this.findDriverChecked(driverId);
         driverDO.setDeleted(true);
     }
 
 
-    /**
-     * Update the location for a driver.
-     *
-     * @param driverId
-     * @param longitude
-     * @param latitude
-     * @throws EntityNotFoundException
-     */
+    /** {@inheritDoc} */
     @Override
     @Transactional
     public void updateLocation(long driverId, double longitude, double latitude) throws EntityNotFoundException
     {
-        DriverDO driverDO = findDriverChecked(driverId);
+        DriverDO driverDO = this.findDriverChecked(driverId);
         driverDO.setCoordinate(new GeoCoordinate(latitude, longitude));
     }
 
-
-    /**
-     * Find all drivers by online state.
-     *
-     * @param onlineStatus
-     */
-    @Override
-    public List<DriverDO> find(OnlineStatus onlineStatus)
-    {
-        return driverRepository.findByOnlineStatus(onlineStatus);
-    }
+    //FIXME
 
 
+    /** {@inheritDoc} */
     @Override
     @Transactional
     public DriverDO select(Long driverId, Long carId) throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
     {
         if (!carService.existsById(carId))
         {
-            throw new EntityNotFoundException("Could not find car with id: " + carId);
+            throw new EntityNotFoundException("Could not find Car entity with id: " + carId);
         }
-        if (driverRepository.existsByIdAndCarDOIsNotNull(driverId))
+        if (driverRepository.existsByIdAndCarDO_IdIsNotNull(driverId))
         {
             throw new ConstraintsViolationException("Driver " + driverId + " already has a car selected.");
         }
         CarDO carDO = carService.findAvailable(carId);
-        DriverDO driverDO = findOnlineDriver(driverId);
+        DriverDO driverDO = this.findOnlineDriver(driverId);
         carDO.setDriverDO(driverDO);
         return driverDO;
     }
 
+    //FIXME
 
+
+    /** {@inheritDoc} */
     @Override
     @Transactional
     public void deselect(Long driverId, Long carId) throws EntityNotFoundException
@@ -162,15 +130,15 @@ public class DefaultDriverService implements DriverService
 
     private DriverDO findOnlineDriver(Long driverId) throws EntityNotFoundException
     {
-        return driverRepository.findByIdAndOnlineStatus(driverId, OnlineStatus.ONLINE)
-            .orElseThrow(() -> new EntityNotFoundException("Could not find entity with id: " + driverId));
+        return driverRepository.findByIdAndOnlineStatusAndDeletedFalse(driverId, OnlineStatus.ONLINE)
+            .orElseThrow(() -> new EntityNotFoundException("Could not find Driver entity with id: " + driverId));
     }
 
 
     private DriverDO findDriverChecked(Long driverId) throws EntityNotFoundException
     {
-        return driverRepository.findById(driverId)
-            .orElseThrow(() -> new EntityNotFoundException("Could not find entity with id: " + driverId));
+        return driverRepository.findByIdAndDeletedFalse(driverId)
+            .orElseThrow(() -> new EntityNotFoundException("Could not find Driver entity with id: " + driverId));
     }
 
 }
