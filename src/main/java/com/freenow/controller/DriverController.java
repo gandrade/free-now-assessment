@@ -1,23 +1,16 @@
 package com.freenow.controller;
 
 import com.freenow.controller.mapper.DriverMapper;
-import com.freenow.controller.specification.DriverDOSpecification;
 import com.freenow.datatransferobject.DriverCriteriaDTO;
 import com.freenow.datatransferobject.DriverDTO;
 import com.freenow.domainobject.DriverDO;
-import com.freenow.domainvalue.OnlineStatus;
 import com.freenow.exception.CarAlreadyInUseException;
 import com.freenow.exception.ConstraintsViolationException;
 import com.freenow.exception.EntityNotFoundException;
 import com.freenow.service.car.CarService;
 import com.freenow.service.driver.DriverService;
-import java.util.List;
-import javax.validation.Valid;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,6 +24,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
+import java.util.List;
 
 /**
  * All operations with a driver will be routed by this controller.
@@ -55,7 +51,8 @@ public class DriverController
     @ApiOperation(value = "Return a driver based on its identification.")
     public DriverDTO getDriver(@Valid @PathVariable long driverId) throws EntityNotFoundException
     {
-        return DriverMapper.makeDriverDTO(driverService.find(driverId));
+        DriverDO driverDO = driverService.find(driverId);
+        return DriverMapper.makeDriverDTO(driverDO);
     }
 
 
@@ -65,7 +62,8 @@ public class DriverController
     public DriverDTO createDriver(@Valid @RequestBody DriverDTO driverDTO) throws ConstraintsViolationException
     {
         DriverDO driverDO = DriverMapper.makeDriverDO(driverDTO);
-        return DriverMapper.makeDriverDTO(driverService.create(driverDO));
+        DriverDO driverDOCreated = driverService.create(driverDO);
+        return DriverMapper.makeDriverDTO(driverDOCreated);
     }
 
 
@@ -91,7 +89,8 @@ public class DriverController
     @ApiOperation(value = "Selects a Driver for a given Car.")
     public DriverDTO selectCar(@PathVariable Long driverId, @PathVariable Long carId) throws EntityNotFoundException, ConstraintsViolationException, CarAlreadyInUseException
     {
-        return DriverMapper.makeDriverDTO(driverService.select(driverId, carId));
+        DriverDO driverDO = driverService.select(driverId, carId);
+        return DriverMapper.makeDriverDTO(driverDO);
     }
 
 
@@ -109,7 +108,8 @@ public class DriverController
     {
         DriverDO driverDO = DriverMapper.makeDriverDO(driverCriteriaDTO);
         List<DriverDO> drivers = driverService.findAll(driverDO);
-        return DriverMapper.makeDriverDTOList(drivers);    }
+        return DriverMapper.makeDriverDTOList(drivers);
+    }
 
 
     @InitBinder(value = {"driverCriteriaDTO"})

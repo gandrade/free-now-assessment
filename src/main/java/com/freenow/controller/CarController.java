@@ -41,7 +41,8 @@ public class CarController
     @ApiOperation(value = "Returns a list of all cars available.")
     public List<CarDTO> getCars()
     {
-        return CarMapper.makeCarDTOList(carService.findAll());
+        List<CarDO> carDO = carService.findAll();
+        return CarMapper.makeCarDTOList(carDO);
     }
 
 
@@ -49,7 +50,8 @@ public class CarController
     @ApiOperation(value = "Return a car based on its identification.")
     public CarDTO getCar(@Valid @PathVariable long carId) throws EntityNotFoundException
     {
-        return CarMapper.makeCarDTO(carService.find(carId));
+        CarDO carDO = carService.find(carId);
+        return CarMapper.makeCarDTO(carDO);
     }
 
 
@@ -59,7 +61,8 @@ public class CarController
     public CarDTO createCar(@Valid @RequestBody CarDTO carDTO) throws ConstraintsViolationException, EntityNotFoundException
     {
         CarDO carDO = CarMapper.makeDriverDO(carDTO);
-        return CarMapper.makeCarDTO(carService.create(carDO));
+        CarDO carDOCreated = carService.create(carDO);
+        return CarMapper.makeCarDTO(carDOCreated);
     }
 
 
@@ -77,6 +80,7 @@ public class CarController
         @Valid @PathVariable long carId,
         @Valid @RequestBody CarDTO carDTO) throws ConstraintsViolationException, EntityNotFoundException
     {
-        carService.update(carId, CarMapper.makeDriverDO(carDTO));
+        CarDO carDO = CarMapper.makeDriverDO(carDTO);
+        carService.update(carId, carDO);
     }
 }
