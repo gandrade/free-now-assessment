@@ -2,7 +2,8 @@ package com.freenow.domainobject;
 
 import com.freenow.domainvalue.GeoCoordinate;
 import com.freenow.domainvalue.OnlineStatus;
-import java.time.ZonedDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -17,7 +18,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
-import org.springframework.format.annotation.DateTimeFormat;
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(

@@ -3,9 +3,10 @@ package com.freenow.domainvalue;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
+import org.springframework.data.geo.Point;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import org.springframework.data.geo.Point;
 
 @Embeddable
 public class GeoCoordinate

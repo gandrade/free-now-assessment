@@ -6,7 +6,6 @@ import com.freenow.datatransferobject.ManufacturerCriteriaDTO;
 import com.freenow.datatransferobject.ManufacturerDTO;
 import com.freenow.domainobject.CarDO;
 import com.freenow.domainobject.ManufacturerDO;
-
 import com.freenow.domainvalue.EngineType;
 import org.junit.Before;
 import org.junit.Test;

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.freenow.datatransferobject.DriverDTO;
 import com.freenow.domainvalue.GeoCoordinate;
 import com.jayway.jsonpath.JsonPath;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +24,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(properties = "logging.level.com.freenow=DEBUG")
 @AutoConfigureMockMvc
-@WithMockUser(username = "mytaxi", password = "mytaxi")
-//@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@WithMockUser(username = "freenow", password = "freenow")
 public class DriverControllerTest
 {
 
@@ -104,6 +102,7 @@ public class DriverControllerTest
             .andExpect(jsonPath("$.length()", is(1)));
 
     }
+
 
     @Test
     public void shouldReturnDriversNonConvertibleCarsOnly() throws Exception

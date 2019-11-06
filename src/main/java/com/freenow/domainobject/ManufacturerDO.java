@@ -86,5 +86,4 @@ public class ManufacturerDO
         this.name = name;
     }
 
-
 }

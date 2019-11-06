@@ -16,6 +16,7 @@ public class DriverMapper
         return new DriverDO(driverDTO.getUsername(), driverDTO.getPassword());
     }
 
+
     public static DriverDO makeDriverDO(DriverCriteriaDTO driverDTO)
     {
         if (driverDTO == null)
@@ -28,6 +29,7 @@ public class DriverMapper
         driverDO.setCarDO(CarMapper.makeDriverDO(driverDTO.getCarDTO()));
         return driverDO;
     }
+
 
     public static DriverDTO makeDriverDTO(DriverDO driverDO)
     {

@@ -1,6 +1,5 @@
 package com.freenow.controller.mapper;
 
-
 import com.freenow.datatransferobject.ManufacturerCriteriaDTO;
 import com.freenow.datatransferobject.ManufacturerDTO;
 import com.freenow.domainobject.ManufacturerDO;

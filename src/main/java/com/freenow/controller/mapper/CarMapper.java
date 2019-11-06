@@ -29,6 +29,7 @@ public class CarMapper
             manufacturerDO);
     }
 
+
     public static CarDTO makeCarDTO(CarDO carDO)
     {
         if (carDO == null)

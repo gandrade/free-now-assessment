@@ -5,7 +5,6 @@ import com.freenow.datatransferobject.CarDTO;
 import com.freenow.datatransferobject.ManufacturerDTO;
 import com.freenow.domainvalue.EngineType;
 import com.jayway.jsonpath.JsonPath;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +25,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(properties = "logging.level.com.freenow=DEBUG")
 @AutoConfigureMockMvc
-@WithMockUser(username = "mytaxi", password = "mytaxi")
+@WithMockUser(username = "freenow", password = "freenow")
 public class CarControllerTest
 {
     @Autowired

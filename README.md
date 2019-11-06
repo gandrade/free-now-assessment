@@ -66,11 +66,11 @@ Secure the API so that authentication is needed to access it. The details are up
 
 Please include instructions how to authenticate/login, so that we can test the endpoints you implemented!
 
-### Authentication instructions
+### Authentication instructions 🔐
 
 ```
-username: mytaxi
-password: mytaxi
+username: freenow
+password: freenow
 ```
 ---
 

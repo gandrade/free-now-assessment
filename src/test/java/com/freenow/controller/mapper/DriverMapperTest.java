@@ -6,7 +6,6 @@ import com.freenow.datatransferobject.ManufacturerCriteriaDTO;
 import com.freenow.domainobject.DriverDO;
 import com.freenow.domainvalue.EngineType;
 import com.freenow.domainvalue.GeoCoordinate;
-
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;

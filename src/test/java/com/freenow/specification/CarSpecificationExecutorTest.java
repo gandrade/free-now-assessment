@@ -1,6 +1,5 @@
 package com.freenow.specification;
 
-
 import com.freenow.domainobject.CarDO;
 import org.hamcrest.Matchers;
 import org.junit.Assert;

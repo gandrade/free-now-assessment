@@ -1,6 +1,5 @@
 package com.freenow.service.manufacturer;
 
-
 import com.freenow.dataaccessobject.ManufacturerRepository;
 import com.freenow.domainobject.ManufacturerDO;
 import com.freenow.exception.EntityNotFoundException;

@@ -41,7 +41,6 @@ public class DefaultDriverService implements DriverService
     }
 
 
-
     /** {@inheritDoc} */
     @Override
     public DriverDO find(Long driverId) throws EntityNotFoundException
@@ -103,6 +102,7 @@ public class DefaultDriverService implements DriverService
         carDO.setDriverDO(driverDO);
         return driverDO;
     }
+
 
     /** {@inheritDoc} */
     @Override
