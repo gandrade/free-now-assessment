@@ -33,7 +33,6 @@ public class DefaultDriverService implements DriverService
     private final DriverDOSpecificationExecutor driverDOSpecificationExecutor;
 
 
-
     public DefaultDriverService(final DriverRepository driverRepository, CarService carService, DriverDOSpecificationExecutor driverDOSpecificationExecutor)
     {
         this.driverRepository = driverRepository;
@@ -152,12 +151,6 @@ public class DefaultDriverService implements DriverService
     }
 
 
-    @Override
-    public List<DriverDO> findAll(Specification<DriverDO> spec)
-    {
-        return driverRepository.findAll(spec);
-    }
-
     /** {@inheritDoc} */
     @Override
     public List<DriverDO> findAll(DriverDO driverDO)
@@ -165,6 +158,7 @@ public class DefaultDriverService implements DriverService
         Specification<DriverDO> driverDOSpecification = this.driverDOSpecificationExecutor.makeSpecification(driverDO);
         return driverRepository.findAll(driverDOSpecification);
     }
+
 
     private DriverDO findOnlineDriver(Long driverId) throws EntityNotFoundException
     {

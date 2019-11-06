@@ -26,8 +26,6 @@ public interface DriverService
 
     void deselect(Long driverId, Long carId) throws EntityNotFoundException;
 
-    List<DriverDO> findAll(Specification<DriverDO> spec);
-
     /**
      * Returns drivers that matching the attributes provided.
      * @param driverDO {@link DriverDO}
